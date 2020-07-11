@@ -25,7 +25,8 @@ class Todo {
         li.key = todo.key;
         li.insertAdjacentHTML('beforeend', `
             <span class="text-todo">${todo.value}</span>
-		    <div class="todo-buttons">
+            <div class="todo-buttons">
+                    <button class="todo-edit"></button>
 			        <button class="todo-remove"></button>
 				    <button class="todo-complete"></button>
             </div>
@@ -65,20 +66,29 @@ class Todo {
     completedItem(key) {
         this.todoData.forEach(item => {
             if (item.key === key) {
+                console.log(item);
                 item.completed = !item.completed;
                 this.render();
             }
         });
     }
 
+    newValue() {
+        const textTodo = document.querySelector('.text-todo');
+
+        console.dir(textTodo);
+    }
+
     handler() {
         const todoContainer = document.querySelector('.todo-container');
         todoContainer.addEventListener('click', e => {
             if (e.target.matches('.todo-complete')) {
-                this.completedItem(e.target.parentNode.offsetParent.key);
+                setTimeout(this.completedItem(e.target.parentNode.offsetParent.key), 5);
 
             } else if (e.target.matches('.todo-remove')) {
                 this.deleteItem(e.target.parentNode.offsetParent.key);
+            } else if (e.target.matches('.todo-edit')) {
+                this.newValue();
             }
         });
     }
@@ -93,3 +103,7 @@ const todo = new Todo('.todo-control', '.header-input', '.todo-list', '.todo-com
 
 todo.init();
 todo.handler();
+
+
+
+
